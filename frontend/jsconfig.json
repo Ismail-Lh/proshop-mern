@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@components": ["components/index.js"],
+      "@styles/*": ["styles/*"]
+      // "@sections": ["sections/index.js"],
+      // "@icons": ["icons/index.js"],
+      // "@reducers": ["reducers/index.js"],
+      // "@utils/*": ["utils/*"],
+      // "@contexts/*": ["contexts/*"]
+    }
+  }
+}

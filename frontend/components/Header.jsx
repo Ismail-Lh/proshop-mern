@@ -1,22 +1,25 @@
 import { Nav, Navbar, Container } from 'react-bootstrap';
 import { FaUserAlt, FaShoppingCart } from 'react-icons/fa';
+import { NextLink } from '@components';
 
 const Header = () => {
   return (
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
         <Container>
-          <Navbar.Brand href='/'>ProShop</Navbar.Brand>
+          <NextLink route='/'>
+            <Navbar.Brand>ProShop</Navbar.Brand>
+          </NextLink>
 
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ml-auto'>
-              <Nav.Link href='/cart'>
+              <NextLink route='/cart'>
                 <FaShoppingCart /> Cart
-              </Nav.Link>
-              <Nav.Link href='/login'>
+              </NextLink>
+              <NextLink route='/login'>
                 <FaUserAlt /> Sing up
-              </Nav.Link>
+              </NextLink>
             </Nav>
           </Navbar.Collapse>
         </Container>

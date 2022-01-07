@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Ismail-Lh/proshop-mern#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.1",
     "colors": "^1.4.0",
     "dotenv": "^10.0.0",

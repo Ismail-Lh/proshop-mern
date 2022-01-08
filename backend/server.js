@@ -1,19 +1,15 @@
-import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import colors from 'colors';
 
 import connectDB from './config/db.js';
-import productsRoutes from './routes/productsRoutes.js';
 
 dotenv.config();
+import app from './app.js';
 
 connectDB();
-const app = express();
 
 app.use(bodyParser.json());
-
-app.use('/api/v1/products', productsRoutes);
 
 const port = process.env.PORT || 5000;
 

@@ -7,9 +7,7 @@ export const getAllProducts = catchAsync(async (req, res) => {
   res.status(200).json({
     status: 'success',
     results: products.length,
-    data: {
-      data: products,
-    },
+    products,
   });
 });
 
@@ -21,8 +19,6 @@ export const getProductById = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      data: product,
-    },
+    product,
   });
 });

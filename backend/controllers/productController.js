@@ -17,8 +17,5 @@ export const getProductById = catchAsync(async (req, res, next) => {
   if (!product)
     return next(new AppError('404: No document found with that ID', 404));
 
-  res.status(200).json({
-    status: 'success',
-    product,
-  });
+  res.status(200).json(product);
 });

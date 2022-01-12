@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
@@ -17,7 +17,9 @@ import Message from '../components/Message';
 
 const ProductScreen = () => {
   const { id } = useParams();
-  const [qty, setQty] = useState(0);
+  const navigate = useNavigate();
+
+  const [qty, setQty] = useState(1);
 
   const dispatch = useDispatch();
   const { loading, product, error } = useSelector(
@@ -27,6 +29,10 @@ const ProductScreen = () => {
   useEffect(() => {
     dispatch(listProductDetails(id));
   }, [dispatch, id]);
+
+  const addToCartHandler = () => {
+    navigate(`/cart?id=${id}&qty=${qty}`);
+  };
 
   return (
     <>
@@ -103,14 +109,13 @@ const ProductScreen = () => {
                   )}
 
                   <ListGroup.Item>
-                    <Link to={`/cart?id:${id}&qty=${qty}`}>
-                      <Button
-                        className='btn-block'
-                        type='button'
-                        disabled={product.countInStock === 0}>
-                        Add To Cart
-                      </Button>
-                    </Link>
+                    <Button
+                      className='btn-block'
+                      type='button'
+                      disabled={product.countInStock === 0}
+                      onClick={addToCartHandler}>
+                      Add To Cart
+                    </Button>
                   </ListGroup.Item>
                 </ListGroup>
               </Card>

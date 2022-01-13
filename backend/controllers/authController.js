@@ -23,6 +23,28 @@ export const authUser = catchAsync(async (req, res, next) => {
   }
 });
 
+export const signUpUser = catchAsync(async (req, res, next) => {
+  const { name, email, password } = req.body;
+
+  const userExists = await User.findOne({ email });
+
+  if (userExists) next(new AppError('User already exists', 400));
+
+  const user = await User.create({ name, email, password });
+
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      email: user.email,
+      name: user.name,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
+    });
+  } else {
+    next(new AppError('Invalid user data', 400));
+  }
+});
+
 export const protectedRoutes = catchAsync(async (req, res, next) => {
   let token;
   if (

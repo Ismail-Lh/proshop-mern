@@ -4,7 +4,10 @@ import {
   protectedRoutes,
   signUpUser,
 } from '../controllers/authController.js';
-import { getUserProfile } from '../controllers/userController.js';
+import {
+  getUserProfile,
+  updateUserProfile,
+} from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -13,6 +16,6 @@ router.post('/signup', signUpUser);
 
 // Protected Route
 router.use(protectedRoutes);
-router.route('/profile').get(getUserProfile);
+router.route('/profile').get(getUserProfile).patch(updateUserProfile);
 
 export default router;

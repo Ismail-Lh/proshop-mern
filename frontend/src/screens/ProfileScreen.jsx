@@ -4,7 +4,7 @@ import { Table, Form, Button, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 
@@ -21,7 +21,7 @@ const ProfileScreen = () => {
 
   const { loading, error, user } = useSelector(state => state.userDetails);
   const { userInfo } = useSelector(state => state.userLogin);
-  //   const { success } = useSelector(state => state.userUpdateProfile);
+  const { success } = useSelector(state => state.userUpdateProfile);
 
   useEffect(() => {
     if (!userInfo) {
@@ -41,7 +41,7 @@ const ProfileScreen = () => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
     } else {
-      //  dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
   };
 
@@ -51,7 +51,7 @@ const ProfileScreen = () => {
         <h2>User Profile</h2>
         {message && <Message variant='danger'>{message}</Message>}
         {}
-        {/* {success && <Message variant='success'>Profile Updated</Message>} */}
+        {success && <Message variant='success'>Profile Updated</Message>}
         {loading ? (
           <Loader />
         ) : error ? (

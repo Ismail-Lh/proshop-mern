@@ -1,6 +1,6 @@
 import User from '../models/userModel.js';
 import catchAsync from '../utils/catchAsync.js';
-import AppError from '../utils/AppError.js';
+import AppError from '../utils/appError.js';
 import generateToken from '../utils/generateToken.js';
 
 export const getUserProfile = catchAsync(async (req, res, next) => {

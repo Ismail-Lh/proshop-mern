@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "web",
   "version": "2.0.0",
   "private": true,
   "type": "module",
@@ -19,7 +19,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "rm -rf node_modules dist",
+    "lint": "echo 'No linter configured for frontend'",
+    "test": "echo 'No tests configured for frontend'"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",

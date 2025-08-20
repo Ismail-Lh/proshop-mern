@@ -1,6 +1,11 @@
+import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-const FormContainer = ({ children }) => {
+interface FormContainerProps {
+  children: React.ReactNode;
+}
+
+const FormContainer: React.FC<FormContainerProps> = ({ children }) => {
   return (
     <Container>
       <Row className='justify-content-md-center'>

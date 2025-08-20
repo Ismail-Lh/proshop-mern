@@ -1,15 +1,16 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
+import { RootState } from '../types/redux';
 
 import { listProducts } from '../actions/productActions';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-const HomeScreen = () => {
+const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
-  const { loading, products, error } = useSelector(state => state.productList);
+  const { loading, products, error } = useSelector((state: RootState) => state.productList);
 
   useEffect(() => {
     dispatch(listProducts());

@@ -14,6 +14,8 @@ import {
   userDetailsReducer,
   userUpdateReducer,
 } from './reducers/userReducers';
+import { RootState } from './types/redux';
+import { CartItem, ShippingAddress, User } from './types';
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -25,24 +27,25 @@ const reducer = combineReducers({
   userUpdateProfile: userUpdateReducer,
 });
 
-const cartItemsFromStorage = localStorage.getItem('cartItems')
-  ? JSON.parse(localStorage.getItem('cartItems'))
+const cartItemsFromStorage: CartItem[] = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems')!)
   : [];
 
-const userInfoFromStorage = localStorage.getItem('userInfo')
-  ? JSON.parse(localStorage.getItem('userInfo'))
+const userInfoFromStorage: User | null = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo')!)
   : null;
 
-const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
-  ? JSON.parse(localStorage.getItem('shippingAddress'))
-  : {};
+const shippingAddressFromStorage: ShippingAddress | null = localStorage.getItem('shippingAddress')
+  ? JSON.parse(localStorage.getItem('shippingAddress')!)
+  : null;
 
-const initialState = {
+const initialState: Partial<RootState> = {
   cart: {
     cartItems: cartItemsFromStorage,
     shippingAddress: shippingAddressFromStorage,
+    paymentMethod: null,
   },
-  userLogin: { userInfo: userInfoFromStorage },
+  userLogin: { userInfo: userInfoFromStorage, loading: false, error: null },
 };
 
 const middleware = [thunk];

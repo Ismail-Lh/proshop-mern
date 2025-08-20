@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Header from './components/Header';
@@ -11,7 +12,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 
-function App() {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Header />
@@ -32,6 +33,6 @@ function App() {
       <Footer />
     </BrowserRouter>
   );
-}
+};
 
 export default App;

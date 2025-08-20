@@ -4,14 +4,16 @@ import {
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
 } from '../constants/cartConstants';
+import { CartState, Action } from '../types/redux';
+import { CartItem } from '../types';
 
 export const cartReducer = (
-  state = { cartItems: [], shippingAddress: {} },
-  action
-) => {
+  state: CartState = { cartItems: [], shippingAddress: null, paymentMethod: null },
+  action: Action
+): CartState => {
   switch (action.type) {
     case CART_ADD_ITEM:
-      const item = action.payload;
+      const item: CartItem = action.payload;
 
       const existItem = state.cartItems.find(x => x.product === item.product);
 

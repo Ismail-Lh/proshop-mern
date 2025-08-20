@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Form, Button } from 'react-bootstrap';
+import { RootState } from '../types/redux';
 
 import { login } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 
-const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const LoginScreen: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect');
@@ -19,13 +20,13 @@ const LoginScreen = () => {
   const redirectTo = redirect ? redirect : '/';
 
   const dispatch = useDispatch();
-  const { loading, userInfo, error } = useSelector(state => state.userLogin);
+  const { loading, userInfo, error } = useSelector((state: RootState) => state.userLogin);
 
   useEffect(() => {
     if (userInfo) navigate(redirectTo);
   }, [userInfo, navigate, redirectTo]);
 
-  const submitHandler = e => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(login(email, password));
   };

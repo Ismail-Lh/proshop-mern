@@ -1,6 +1,12 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
-const Rating = ({ value, text, color }) => {
+interface RatingProps {
+  value: number;
+  text?: string;
+  color?: string;
+}
+
+const Rating: React.FC<RatingProps> = ({ value, text, color = '#f8e825' }) => {
   return (
     <div className='rating'>
       <span>
@@ -61,16 +67,6 @@ const Rating = ({ value, text, color }) => {
       <span>{text && text}</span>
     </div>
   );
-};
-
-Rating.defaultProps = {
-  color: '#f8e825',
-};
-
-Rating.propTypes = {
-  value: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-  color: PropTypes.string,
 };
 
 export default Rating;

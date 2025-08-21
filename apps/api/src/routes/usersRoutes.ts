@@ -3,11 +3,11 @@ import {
   authUser,
   protectedRoutes,
   signUpUser,
-} from '../controllers/authController.js';
+} from '../controllers/authController';
 import {
   getUserProfile,
   updateUserProfile,
-} from '../controllers/userController.js';
+} from '../controllers/userController';
 
 const router = express.Router();
 

@@ -1,6 +1,46 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
-const orderSchema = mongoose.Schema(
+export interface IOrderItem {
+  name: string;
+  qty: number;
+  image: string;
+  price: number;
+  products: mongoose.Types.ObjectId;
+}
+
+export interface IShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+  Country: string;
+}
+
+export interface IPaymentResult {
+  id?: string;
+  status?: string;
+  update_time?: string;
+  email_address?: string;
+}
+
+export interface IOrder extends Document {
+  _id: string;
+  user: mongoose.Types.ObjectId;
+  orderItems: IOrderItem[];
+  shippingAddress: IShippingAddress;
+  paymentMethod: string;
+  paymentResult?: IPaymentResult;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  paidAt?: Date;
+  isDelivered: boolean;
+  deliveredAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const orderSchema: Schema<IOrder> = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -73,6 +113,6 @@ const orderSchema = mongoose.Schema(
   }
 );
 
-const Order = mongoose.model('Order', orderSchema);
+const Order = mongoose.model<IOrder>('Order', orderSchema);
 
 export default Order;

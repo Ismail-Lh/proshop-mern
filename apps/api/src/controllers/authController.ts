@@ -1,12 +1,26 @@
 import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
 
-import User from '../models/userModel.js';
-import catchAsync from '../utils/catchAsync.js';
-import AppError from '../utils/appError.js';
-import generateToken from '../utils/generateToken.js';
+import User, { IUser } from '../models/userModel';
+import catchAsync from '../utils/catchAsync';
+import AppError from '../utils/appError';
+import generateToken from '../utils/generateToken';
 
-export const authUser = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+// Extend Request interface to include user property
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+    }
+  }
+}
+
+interface JwtPayload {
+  id: string;
+}
+
+export const authUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password }: { email: string; password: string } = req.body;
 
   const user = await User.findOne({ email });
 
@@ -23,8 +37,8 @@ export const authUser = catchAsync(async (req, res, next) => {
   }
 });
 
-export const signUpUser = catchAsync(async (req, res, next) => {
-  const { name, email, password } = req.body;
+export const signUpUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const { name, email, password }: { name: string; email: string; password: string } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -45,8 +59,8 @@ export const signUpUser = catchAsync(async (req, res, next) => {
   }
 });
 
-export const protectedRoutes = catchAsync(async (req, res, next) => {
-  let token;
+export const protectedRoutes = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  let token: string | undefined;
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
@@ -55,16 +69,20 @@ export const protectedRoutes = catchAsync(async (req, res, next) => {
   }
 
   if (!token)
-    next(
+    return next(
       new AppError(
         'Your not authorized to access this routes. Please log in again.',
         401
       )
     );
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
   const currentUser = await User.findById(decoded.id).select('-password');
+
+  if (!currentUser) {
+    return next(new AppError('User no longer exists', 401));
+  }
 
   req.user = currentUser;
 

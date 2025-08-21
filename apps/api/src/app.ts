@@ -1,9 +1,9 @@
 import express from 'express';
 
-import globalErrorHandler from './controllers/errorController.js';
-import AppError from './utils/appError.js';
-import productsRoutes from './routes/productsRoutes.js';
-import usersRoutes from './routes/usersRoutes.js';
+import globalErrorHandler from '../controllers/errorController';
+import AppError from '../utils/appError';
+import productsRoutes from '../routes/productsRoutes';
+import usersRoutes from '../routes/usersRoutes';
 
 const app = express();
 

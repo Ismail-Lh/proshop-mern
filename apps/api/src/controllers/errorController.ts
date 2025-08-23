@@ -1,34 +1,44 @@
-import AppError from '../utils/appError.js';
+import { Request, Response, NextFunction } from 'express';
+import AppError from '../utils/appError';
 
-const handleInvalidDBId = err => {
+interface CustomError extends Error {
+  statusCode?: number;
+  status?: string;
+  isOperational?: boolean;
+  path?: string;
+  value?: any;
+  keyValue?: any;
+  errors?: any;
+  kind?: string;
+  code?: number;
+  _message?: string;
+}
+
+const handleInvalidDBId = (err: CustomError): AppError => {
   const message = `Invalid ${err.path}: ${err.value}`;
-
   return new AppError(message, 400);
 };
 
-const handleDuplicateFieldsDB = err => {
-  const value = err.keyValue.name;
-
+const handleDuplicateFieldsDB = (err: CustomError): AppError => {
+  const value = err.keyValue?.name;
   const message = `Duplicate field value: "${value}". Please use another value!`;
-
   return new AppError(message, 400);
 };
 
-const handleValidationErrorDB = err => {
-  const errors = Object.values(err.errors).map(el => el.message);
+const handleValidationErrorDB = (err: CustomError): AppError => {
+  const errors = Object.values(err.errors || {}).map((el: any) => el.message);
   const message = `Invalid input data. ${errors.join('. ')}`;
-
   return new AppError(message, 400);
 };
 
-const handleJWTError = () =>
+const handleJWTError = (): AppError =>
   new AppError('Invalid token. Please log in again.', 401);
 
-const handleJWTExpiredError = () =>
+const handleJWTExpiredError = (): AppError =>
   new AppError('Token expired. Please log in again.', 401);
 
-const sendErrorDev = (err, res) => {
-  res.status(err.statusCode).json({
+const sendErrorDev = (err: CustomError, res: Response): void => {
+  res.status(err.statusCode || 500).json({
     status: err.status,
     error: err,
     message: err.message,
@@ -36,7 +46,7 @@ const sendErrorDev = (err, res) => {
   });
 };
 
-const sendErrorProd = (err, res) => {
+const sendErrorProd = (err: CustomError, res: Response): void => {
   // Operational, trusted error: send message to client
   if (err.isOperational) {
     res.status(err.statusCode).json({
@@ -57,7 +67,7 @@ const sendErrorProd = (err, res) => {
   }
 };
 
-export default (err, req, res, next) => {
+export default (err: CustomError, req: Request, res: Response, next: NextFunction): void => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 

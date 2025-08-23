@@ -1,6 +1,13 @@
 import bcrypt from 'bcryptjs';
 
-const users = [
+interface UserData {
+  name: string;
+  email: string;
+  password: string;
+  isAdmin?: boolean;
+}
+
+const users: UserData[] = [
   {
     name: 'Admin User',
     email: 'admin@exmaple.com',

@@ -1,7 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const userSchema = mongoose.Schema(
+export interface IUser extends Document {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+  matchPassword(enteredPassword: string): Promise<boolean>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const userSchema: Schema<IUser> = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -27,7 +38,7 @@ const userSchema = mongoose.Schema(
   }
 );
 
-userSchema.pre('save', async function (next) {
+userSchema.pre<IUser>('save', async function (next) {
   // Only run this function if password was actually modified
   if (!this.isModified('password')) next();
 
@@ -37,10 +48,10 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword: string): Promise<boolean> {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model<IUser>('User', userSchema);
 
 export default User;

@@ -1,11 +1,11 @@
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import colors from 'colors';
+import 'colors';
 
-import connectDB from './config/db.js';
+import connectDB from '../config/db';
 
 dotenv.config();
-import app from './app.js';
+import app from './app';
 
 connectDB();
 

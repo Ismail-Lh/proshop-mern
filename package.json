@@ -1,5 +1,5 @@
 {
-  "name": "proshop-mern",
+  "name": "proshop",
   "version": "1.0.0",
   "private": true,
   "description": "Full stack web app",
@@ -10,11 +10,12 @@
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "test": "turbo run test",
-    "api:dev": "pnpm --filter api dev",
-    "api:start": "pnpm --filter api start",
+    "api:dev": "turbo dev --filter='!@proshop/web'",
+    "api:start": "turbo start --filter='!@proshop/web'",
     "api:seed": "pnpm --filter api seed",
-    "web:dev": "pnpm --filter web dev",
-    "web:build": "pnpm --filter web build"
+    "web:dev": "turbo dev --filter='!@proshop/api'",
+    "web:build": "turbo build --filter='!@proshop/api'",
+    "packages:build": "turbo build --filter='./packages/*'"
   },
   "repository": {
     "type": "git",
